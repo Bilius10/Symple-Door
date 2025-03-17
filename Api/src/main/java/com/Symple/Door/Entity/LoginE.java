@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
+@Table(name = "Login")
 public class LoginE implements UserDetails, Serializable {
 
     @Id

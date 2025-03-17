@@ -30,7 +30,7 @@ public class LoginS {
     public LoginE criarConta(LoginE login) throws RegraNegocioException {
 
         Optional<LoginE> jaExiste = loginRepository.findLoginBySenha(login.getSenha());
-
+        System.out.println("1");
         if(jaExiste.isPresent()){
 
             throw new RegraNegocioException("Tente outra senha");
@@ -38,10 +38,10 @@ public class LoginS {
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(login.getSenha());
         login.setSenha(encryptedPassword);
-
+        System.out.println("2");
         CredenciaisE credenciaisE = new CredenciaisE(login.getLogin(), login.getSenha());
         credenciaisRepository.save(credenciaisE);
-
+        System.out.println("3");
         return loginRepository.save(login);
     }
 

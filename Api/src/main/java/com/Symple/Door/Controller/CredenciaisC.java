@@ -25,9 +25,9 @@ public class CredenciaisC {
 
     @PostMapping("/entrar")
     public ResponseEntity<Object> loginEsp(LoginEspDTO loginEspDTO) throws RegraNegocioException {
-
+        System.out.println(loginEspDTO);
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(credenciaisS.acheUmaCredencial(loginEspDTO.senha()));
+            return ResponseEntity.status(HttpStatus.OK).body(credenciaisS.loginEsp(loginEspDTO.senha()));
         }catch (RegraNegocioException e){
             ErroDTO erroDTO = new ErroDTO(e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erroDTO);
