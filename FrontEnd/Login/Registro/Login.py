@@ -2,7 +2,7 @@ import flet as ft
 import requests
 import time
 
-def login_page():
+def login_page(on_registro):
 
     image = "C:/Users/João Vitor/IdeaProjects/CarteiraAcao/FrontEnd/Imagens/FundoLoginRegistro.png"
     nome_value = ft.TextField(label="Nome", width=400, height=50, label_style= ft.TextStyle(color="#000000"), border_color="#f7931a", text_style=ft.TextStyle(color="#000000"))
@@ -13,7 +13,7 @@ def login_page():
     def enviar(evento):
         
         data = {
-            "nome": nome_value.value,
+            "login": nome_value.value,
             "senha": senha_value.value
         }
       
@@ -63,6 +63,7 @@ def login_page():
                 mensagem_api,
                 ft.CupertinoButton(
                     content=ft.Text("Registrar", color="#ed8200", font_family="MinhaFonte", size=20), width=150, height=55, 
+                    on_click=on_registro
                 ),
             ],
             alignment=ft.MainAxisAlignment.CENTER,

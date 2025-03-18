@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "Credenciais")
+@Table(name = "credenciais")
 public class CredenciaisE implements Serializable {
 
     @Id
@@ -44,6 +44,15 @@ public class CredenciaisE implements Serializable {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    @Override
+    public String toString() {
+        return "CredenciaisE{" +
+                "idCredencial=" + idCredencial +
+                ", nome='" + nome + '\'' +
+                ", senha='" + senha + '\'' +
+                '}';
     }
 }
 

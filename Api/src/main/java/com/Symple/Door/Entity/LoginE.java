@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name = "Login")
+@Table(name = "login")
 public class LoginE implements UserDetails, Serializable {
 
     @Id
@@ -21,7 +21,7 @@ public class LoginE implements UserDetails, Serializable {
     private String senha;
 
     @Enumerated(EnumType.STRING)
-    private NivelPermissao nivelPermisao;
+    private NivelPermissao nivelPermissao;
 
     private boolean accountNonExpired;
     private boolean accountNonLocked;
@@ -29,14 +29,14 @@ public class LoginE implements UserDetails, Serializable {
     private boolean enabled;
 
     public LoginE() {
-        this.nivelPermisao = NivelPermissao.PORTEIRO;
+        this.nivelPermissao = NivelPermissao.PORTEIRO;
         this.accountNonExpired = true;
         this.accountNonLocked = true;
         this.credentialsNonExpired = true;
         this.enabled = true;
     }
 
-    public LoginE(String login, String senha, String nivelPermisao, boolean accountNonExpired, boolean accountNonLocked, boolean credentialsNonExpired, boolean enabled, boolean nivelPermissao) {
+    public LoginE(String login, String senha, boolean accountNonExpired, boolean accountNonLocked, boolean credentialsNonExpired, boolean enabled, boolean nivelPermissao) {
         this.login = login;
         this.senha = senha;
         this.accountNonExpired = accountNonExpired;
@@ -47,7 +47,7 @@ public class LoginE implements UserDetails, Serializable {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if(this.nivelPermisao == NivelPermissao.ADMIN){
+        if(this.nivelPermissao == NivelPermissao.ADMIN){
             return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"),
                     new SimpleGrantedAuthority("ROLE_PORTEIRO"));
         }else{
@@ -109,12 +109,12 @@ public class LoginE implements UserDetails, Serializable {
         this.senha = senha;
     }
 
-    public NivelPermissao getNivelPermisao() {
-        return nivelPermisao;
+    public NivelPermissao getNivelPermissao() {
+        return nivelPermissao;
     }
 
-    public void setNivelPermisao(NivelPermissao nivelPermisao) {
-        this.nivelPermisao = nivelPermisao;
+    public void setNivelPermissao(NivelPermissao nivelPermissao) {
+        this.nivelPermissao = nivelPermissao;
     }
 
     public void setAccountNonExpired(boolean accountNonExpired) {
@@ -131,5 +131,19 @@ public class LoginE implements UserDetails, Serializable {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    @Override
+    public String toString() {
+        return "LoginE{" +
+                "idLogin=" + idLogin +
+                ", login='" + login + '\'' +
+                ", senha='" + senha + '\'' +
+                ", nivelPermisao=" + nivelPermissao +
+                ", accountNonExpired=" + accountNonExpired +
+                ", accountNonLocked=" + accountNonLocked +
+                ", credentialsNonExpired=" + credentialsNonExpired +
+                ", enabled=" + enabled +
+                '}';
     }
 }
