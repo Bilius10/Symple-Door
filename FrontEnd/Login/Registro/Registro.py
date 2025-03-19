@@ -19,7 +19,7 @@ def registro_page(on_login):
       
         try:
             response = requests.post("http://localhost:8080/auth/registro",json=data)
-                
+        
             if response.status_code == 200 or response.status_code == 201:
                 mensagem_api.value = "Cadastrado!"
                 mensagem_api.color = "green"
@@ -37,6 +37,8 @@ def registro_page(on_login):
         nome_value.value = ""
         senha_value.update()
         nome_value.update()
+        mensagem_api.update()
+        mensagem_api.update()
 
         time.sleep(1)
 

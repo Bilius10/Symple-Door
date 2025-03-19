@@ -15,4 +15,6 @@ public interface LoginR extends JpaRepository<LoginE, Long> {
     @Query("SELECT l from LoginE l WHERE l.senha = :senha")
     Optional<LoginE> findLoginBySenha(String senha);
 
+    @Query("SELECT l from LoginE l WHERE l.login = :login")
+    Optional<LoginE> findLoginEByLogin(String login);
 }

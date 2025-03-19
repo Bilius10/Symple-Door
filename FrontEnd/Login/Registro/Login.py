@@ -2,7 +2,7 @@ import flet as ft
 import requests
 import time
 
-def login_page(on_registro):
+def login_page(on_registro, on_menu):
 
     image = "C:/Users/João Vitor/IdeaProjects/CarteiraAcao/FrontEnd/Imagens/FundoLoginRegistro.png"
     nome_value = ft.TextField(label="Nome", width=400, height=50, label_style= ft.TextStyle(color="#000000"), border_color="#f7931a", text_style=ft.TextStyle(color="#000000"))
@@ -19,7 +19,7 @@ def login_page(on_registro):
       
         try:
             response = requests.post("http://localhost:8080/auth/login",json=data)
-                
+       
             if response.status_code == 200 or response.status_code == 201:
                 mensagem_api.value = "Seja Bem vindo! "+response.json().get('login') 
                 mensagem_api.color = "green"
@@ -33,15 +33,15 @@ def login_page(on_registro):
             mensagem_api.value = f"Erro ao enviar dados: {e}"
             mensagem_api.color = "red"
 
+        
         senha_value.value = ""
         nome_value.value = ""
-        senha_value.update()
+
         nome_value.update()
-
-        time.sleep(1)
-
-        mensagem_api.value = ""
+        senha_value.update()
         mensagem_api.update()
+
+        on_menu
 
     return ft.Container(
         content=ft.Column(

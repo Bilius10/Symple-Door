@@ -33,7 +33,7 @@ public class AuthC {
 
             return ResponseEntity.status(HttpStatus.OK).body(loginService.criarConta(recebeDTO));
 
-        } catch (Exception error) {
+        } catch (RegraNegocioException error) {
             ErroDTO erroDTO = new ErroDTO(error.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erroDTO);
         }

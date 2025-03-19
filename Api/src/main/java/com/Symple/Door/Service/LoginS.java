@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -26,21 +27,22 @@ public class LoginS {
     private AuthenticationManager authenticationManager;
     @Autowired
     private TokenService tokenService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public LoginE criarConta(LoginE login) throws RegraNegocioException {
 
-        Optional<LoginE> jaExiste = loginRepository.findLoginBySenha(login.getSenha());
 
-        if(jaExiste.isPresent()){
+        Optional<LoginE> jaExiste = loginRepository.findLoginEByLogin(login.getLogin());
 
-            throw new RegraNegocioException("Tente outra senha");
+        if (jaExiste.isPresent()) {
+            throw new RegraNegocioException("Login já está em uso");
         }
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(login.getSenha());
         login.setSenha(encryptedPassword);
 
-        CredenciaisE credenciaisE = new CredenciaisE(login.getLogin(), login.getSenha());
-
+        CredenciaisE credenciaisE = new CredenciaisE(login.getLogin(), encryptedPassword);
         credenciaisRepository.save(credenciaisE);
 
         return loginRepository.save(login);
@@ -48,10 +50,14 @@ public class LoginS {
 
     public CodigoLoginDTO login(LoginE login) throws RegraNegocioException{
 
-        Optional<LoginE> encontreUsuario = loginRepository.findLoginBySenha(login.getSenha());
+        Optional<LoginE> encontreUsuario = loginRepository.findLoginEByLogin(login.getLogin());
 
-        if(encontreUsuario.isEmpty()){
-            throw new RegraNegocioException("Senha Incorreta");
+        if (encontreUsuario.isEmpty()) {
+            throw new RegraNegocioException("Login invalido");
+        }
+
+        if (!passwordEncoder.matches(login.getSenha(), encontreUsuario.get().getSenha())) {
+            throw new RegraNegocioException("Senha inválida.");
         }
 
         var usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(encontreUsuario.get().getUsername(),
