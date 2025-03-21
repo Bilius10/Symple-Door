@@ -1,6 +1,7 @@
 import flet as ft
 import requests
 import time
+from session import session
 
 def login_page(on_registro, on_menu):
 
@@ -19,14 +20,14 @@ def login_page(on_registro, on_menu):
       
         try:
             response = requests.post("http://localhost:8080/auth/login",json=data)
-       
+            
             if response.status_code == 200 or response.status_code == 201:
-                mensagem_api.value = "Seja Bem vindo! "+response.json().get('login') 
+                mensagem_api.value = "Seja Bem vindo! "+response.json().get('nome') 
                 mensagem_api.color = "green"
                     
             else:
                     
-                mensagem_api.value = response.json().get("Mensagem", "Erro desconhecido.")
+                mensagem_api.value = response.json().get("mensagem", "Erro desconhecido.")
                 mensagem_api.color = "red"
 
         except requests.exceptions.RequestException as e:
@@ -41,7 +42,16 @@ def login_page(on_registro, on_menu):
         senha_value.update()
         mensagem_api.update()
 
-        on_menu
+        time.sleep(1)
+
+        mensagem_api.value = ""
+        mensagem_api.update()
+
+        if(response.status_code == 200):
+            session.user_data['token'] = response.json().get('codigo')
+            session.user_data['nome'] = response.json().get('nome')
+            session.user_data['senha'] = response.json().get('senha')
+            on_menu(evento)
 
     return ft.Container(
         content=ft.Column(

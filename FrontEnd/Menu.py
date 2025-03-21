@@ -1,8 +1,7 @@
 import flet as ft
-import requests
-import time
 
-def menu_page(on_login):
+
+def menu_page(on_login, on_listUsuario):
     
     return ft.Container(
         content=ft.Column(
@@ -16,17 +15,21 @@ def menu_page(on_login):
 
                 ft.CupertinoButton(
                     content=ft.Text("Listar Usuario", color="#f7931a", font_family="MinhaFonte", size=25),
-                    width=400, height=55, bgcolor="#ffcb8c", 
+                    width=400, height=55, bgcolor="#ffcb8c", on_click=on_listUsuario
                 ),
                 ft.CupertinoButton(
                     content=ft.Text("Adicionar Usuario", color="#f7931a", font_family="MinhaFonte", size=25),
-                    width=400, height=55, bgcolor="#ffcb8c", 
+                    width=400, height=55, bgcolor="#ffcb8c"
+                ),
+                ft.CupertinoButton(
+                    content=ft.Text("Voltar", color="#f7931a", font_family="MinhaFonte", size=25),
+                    width=400, height=55, bgcolor="#ffcb8c", on_click=on_login
                 ),
 
             ],
-            alignment=ft.MainAxisAlignment.START,  # Alinha os elementos ao topo
+            alignment=ft.MainAxisAlignment.START,  
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-            spacing=18,  # Ajuste o espaçamento conforme necessário
+            spacing=18,  
         ),
         width=500,
         height=700,

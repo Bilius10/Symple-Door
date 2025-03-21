@@ -25,8 +25,8 @@ def registro_page(on_login):
                 mensagem_api.color = "green"
                     
             else:
-                    
-                mensagem_api.value = response.json().get("Mensagem", "Erro desconhecido.")
+                print(response.json().get("mensagem"))
+                mensagem_api.value = response.json().get("mensagem", "Erro desconhecido.")
                 mensagem_api.color = "red"
 
         except requests.exceptions.RequestException as e:
@@ -37,7 +37,6 @@ def registro_page(on_login):
         nome_value.value = ""
         senha_value.update()
         nome_value.update()
-        mensagem_api.update()
         mensagem_api.update()
 
         time.sleep(1)

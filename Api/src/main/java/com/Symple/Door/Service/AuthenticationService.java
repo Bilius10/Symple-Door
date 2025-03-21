@@ -17,7 +17,7 @@ public class AuthenticationService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         try {
-            return loginR.findUserDetailsByName(username);
+            return loginR.findUserDetailsByLogin(username);
         } catch (UsernameNotFoundException u) {
             throw new RuntimeException(u);
         }

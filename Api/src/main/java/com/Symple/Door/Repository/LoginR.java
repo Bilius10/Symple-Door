@@ -9,8 +9,8 @@ import java.util.Optional;
 
 public interface LoginR extends JpaRepository<LoginE, Long> {
 
-    @Query("SELECT l FROM LoginE l WHERE l.senha = :senha")
-    UserDetails findUserDetailsByName(String senha);
+    @Query("SELECT l FROM LoginE l WHERE l.login = :login")
+    UserDetails findUserDetailsByLogin(String login);
 
     @Query("SELECT l from LoginE l WHERE l.senha = :senha")
     Optional<LoginE> findLoginBySenha(String senha);
