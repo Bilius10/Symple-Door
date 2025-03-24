@@ -68,7 +68,7 @@ public class LoginS {
         var token = tokenService.generateToken((LoginE) auth.getPrincipal());
 
         CodigoLoginDTO codigoLoginDTO = new CodigoLoginDTO(token, encontreUsuario.get().getLogin(),
-                encontreUsuario.get().getSenha());
+                encontreUsuario.get().getSenha(), encontreUsuario.get().getIdLogin());
 
         return codigoLoginDTO;
     }

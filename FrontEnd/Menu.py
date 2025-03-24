@@ -18,10 +18,6 @@ def menu_page(on_login, on_listUsuario):
                     width=400, height=55, bgcolor="#ffcb8c", on_click=on_listUsuario
                 ),
                 ft.CupertinoButton(
-                    content=ft.Text("Adicionar Usuario", color="#f7931a", font_family="MinhaFonte", size=25),
-                    width=400, height=55, bgcolor="#ffcb8c"
-                ),
-                ft.CupertinoButton(
                     content=ft.Text("Voltar", color="#f7931a", font_family="MinhaFonte", size=25),
                     width=400, height=55, bgcolor="#ffcb8c", on_click=on_login
                 ),

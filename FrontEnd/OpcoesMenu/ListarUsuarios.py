@@ -2,20 +2,21 @@ import requests
 import flet as ft
 from session import session
 
-def listUsuario_page(on_login):
-    headers = {"Authorization": "Bearer " + session.user_data.get("codigo", "")}
+def listUsuario_page(on_menu):
+    headers = {"Authorization": "Bearer " + session.user_data.get("token", "")}
     
     try:
         response = requests.get("http://localhost:8080/credenciais/todos", headers=headers)
         
         response.raise_for_status()  
         data = response.json()
+        
     except requests.exceptions.RequestException as e:
         data = []
         print(f"Erro ao buscar usuários: {e}")
 
     columns = [
-        ft.DataColumn(ft.Text("Codigo")),
+        ft.DataColumn(ft.Text("idCredencial")),
         ft.DataColumn(ft.Text("Nome")),
         ft.DataColumn(ft.Text("Senha"))
     ]
@@ -23,7 +24,7 @@ def listUsuario_page(on_login):
     rows = [
         ft.DataRow(
             cells=[
-                ft.DataCell(ft.Text(credencial["codigo"])),
+                ft.DataCell(ft.Text(credencial["idCredencial"])),
                 ft.DataCell(ft.Text(credencial["nome"])),
                 ft.DataCell(ft.Text(credencial["senha"]))
             ]
@@ -35,7 +36,16 @@ def listUsuario_page(on_login):
     return ft.Container(
         content=ft.Column(
             [   
-                ft.Column([data_table], scroll=ft.ScrollMode.ALWAYS, height=130),
+                ft.Text(
+                    value="Lista de Usuarios", color="#ed8200", font_family="MinhaFonte", size=80
+                ),
+
+                ft.Column([data_table], scroll=ft.ScrollMode.ALWAYS, scheight=130),
+
+                ft.CupertinoButton(
+                    content=ft.Text("Voltar", color="#ed8200", font_family="MinhaFonte", size=20), width=150, height=55, 
+                    on_click=on_menu
+                ),
             ],
             alignment=ft.MainAxisAlignment.START, 
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,

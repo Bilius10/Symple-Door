@@ -48,7 +48,9 @@ def login_page(on_registro, on_menu):
         mensagem_api.update()
 
         if(response.status_code == 200):
+            print(response.json().get('codigo'))
             session.user_data['token'] = response.json().get('codigo')
+            session.user_data['Id'] = response.json().get('Id')
             session.user_data['nome'] = response.json().get('nome')
             session.user_data['senha'] = response.json().get('senha')
             on_menu(evento)

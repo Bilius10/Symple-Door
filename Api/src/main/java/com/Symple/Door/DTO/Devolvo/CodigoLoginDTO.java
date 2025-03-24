@@ -5,5 +5,6 @@ import jakarta.validation.constraints.NotNull;
 
 public record CodigoLoginDTO(@NotNull String codigo,
                              @NotBlank String nome,
-                             @NotBlank String senha) {
+                             @NotBlank String senha,
+                             @NotBlank Long Id) {
 }
