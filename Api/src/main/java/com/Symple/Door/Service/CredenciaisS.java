@@ -26,12 +26,14 @@ public class CredenciaisS {
 
         String senhaCriptografada = passwordEncoder.encode(senha);
 
-        Optional<LoginE> encontreUsuario = credenciaisR.findCredenciaisEBySenha(senhaCriptografada);
+        List<CredenciaisE> todosUsuarios = credenciaisR.findAll();
 
-        if (encontreUsuario.isEmpty()) {
-            throw new RegraNegocioException("Senha incorreta");
+        for (CredenciaisE usuario : todosUsuarios) {
+            if (passwordEncoder.matches(senha, usuario.getSenha())) {
+                return senhaCriptografada;
+            }
         }
-        return senhaCriptografada;
+        throw new RegraNegocioException("Senha inválida.");
     }
 
 
