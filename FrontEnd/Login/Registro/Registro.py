@@ -18,7 +18,7 @@ def registro_page(on_login):
         }
       
         try:
-            response = requests.post("http://localhost:8080/auth/registro",json=data)
+            response = requests.post("https://c5bc-177-93-150-55.ngrok-free.app/auth/registro",json=data)
         
             if response.status_code == 200 or response.status_code == 201:
                 mensagem_api.value = "Cadastrado!"

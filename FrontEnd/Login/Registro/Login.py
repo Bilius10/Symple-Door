@@ -19,7 +19,7 @@ def login_page(on_registro, on_menu):
         }
       
         try:
-            response = requests.post("http://localhost:8080/auth/login",json=data)
+            response = requests.post("https://c5bc-177-93-150-55.ngrok-free.app/auth/login",json=data)
             
             if response.status_code == 200 or response.status_code == 201:
                 mensagem_api.value = "Seja Bem vindo! "+response.json().get('nome') 

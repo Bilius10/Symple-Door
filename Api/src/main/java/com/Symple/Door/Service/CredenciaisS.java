@@ -30,10 +30,10 @@ public class CredenciaisS {
 
         for (CredenciaisE usuario : todosUsuarios) {
             if (passwordEncoder.matches(senha, usuario.getSenha())) {
-                return senhaCriptografada;
+                return "Senha valida";
             }
         }
-        throw new RegraNegocioException("Senha inválida.");
+        throw new RegraNegocioException("Senha invalida");
     }
 
 

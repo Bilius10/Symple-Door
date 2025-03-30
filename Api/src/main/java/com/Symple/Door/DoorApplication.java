@@ -6,7 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class DoorApplication {
 
-	//arumar o login e o registro
+	//https://dashboard.ngrok.com/get-started/setup/windows
+	//ngrok http (porta rodando)
 	public static void main(String[] args) {
 		SpringApplication.run(DoorApplication.class, args);
 	}

@@ -35,9 +35,9 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/auth/registro").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/credenciais/entrar").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/credenciais/entrar/{senha}").permitAll()
                         .requestMatchers(HttpMethod.GET, "/credenciais/todos").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/helloWorld").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/helloworld").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

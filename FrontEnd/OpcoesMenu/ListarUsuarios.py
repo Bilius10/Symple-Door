@@ -6,7 +6,7 @@ def listUsuario_page(on_menu):
     headers = {"Authorization": "Bearer " + session.user_data.get("token", "")}
     
     try:
-        response = requests.get("http://localhost:8080/credenciais/todos", headers=headers)
+        response = requests.get("https://c5bc-177-93-150-55.ngrok-free.app/credenciais/todos", headers=headers)
         
         response.raise_for_status()  
         data = response.json()
