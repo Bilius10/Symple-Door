@@ -2,13 +2,12 @@
 #include <LiquidCrystal_I2C.h>
 #include <WiFi.h>
 #include <HTTPClient.h>
-#include <ArduinoJson.h>
 
 #define SOM 33
 
 LiquidCrystal_I2C lcd(0X27, 16, 2);
 
-const uint8_t ROWS = 4;
+const uint8_t ROWS = 4; 
 const uint8_t COLS = 4;
 
 const char* SSID = "Wokwi-GUEST"; 
@@ -16,7 +15,7 @@ const char* PASSWORD = "";
 
 HTTPClient http;
 
-String api = "https://dcea-177-93-150-55.ngrok-free.app";
+String apiIP = "https://3.17.7.232";  
 String logAcesso = "https://api.thingspeak.com/update?api_key=QYVMO3H6J77T93IK&field2=";
 
 char keys[ROWS][COLS] = {
@@ -29,7 +28,6 @@ uint8_t colPins[COLS] = { 18, 5, 17, 16 };
 uint8_t rowPins[ROWS] = { 23, 22, 21, 19 };
 Keypad keypad = Keypad(makeKeymap(keys), rowPins, colPins, ROWS, COLS);
 
-
 void setup() {
   Serial.begin(115200);
 
@@ -41,55 +39,56 @@ void setup() {
 
   pinMode(SOM, OUTPUT);
 
-  while (WiFi.status() != WL_CONNECTED) {
+  int attempts = 0;
+  while (WiFi.status() != WL_CONNECTED && attempts < 10) {
     delay(500);
     lcd.print(".");
+    attempts++;
+  }
+
+  if (WiFi.status() != WL_CONNECTED) {
+    lcd.clear();
+    lcd.print("Falha no Wi-Fi");
+    while(1);  
   }
 
   lcd.clear();
-
   lcd.print("Wifi Connected");
   delay(2000);
   lcd.clear();
 
-  http.begin(api + "/helloworld"); 
-
+  http.begin(apiIP + "/helloworld");  
   int httpCode = http.GET();
   if (httpCode > 0) {
     lcd.print("API Connected");
-    Serial.println("Resposta da API: " + http.getString()); 
   } else {
     lcd.print("Erro: " + String(httpCode));
-    Serial.println("Erro ao conectar à API. Código: " + String(httpCode));
   }
 
+  http.end(); 
   delay(4000);
   lcd.clear();
-
+  
   lcd.setCursor(4,0);
   lcd.print("Digite");
   lcd.setCursor(3,1);
   lcd.print("sua senha:");
 }
 
-String senha = "";
+char senha[10];  
+int senhaIndex = 0;
 
-void conferir(){
- 
-
-  http.begin(api + "/credenciais/entrar/" + senha); 
-
+void conferir() {
+  http.begin(apiIP + "/credenciais/entrar/" + senha); 
   int httpCode = http.POST("");
-
-  if(httpCode > 0){
-    if(http.getString() == "Senha valida"){
+  if(httpCode > 0) {
+    if(http.getString() == "Senha valida") {
       tone(SOM, 252, 100); 
       lcd.print("Liberado");
       noTone(SOM);
-      
       http.begin(logAcesso + "&field2=" + 1); 
+      http.GET();
     } else {
-      Serial.println(http.getString());
       tone(SOM, 252, 100);
       lcd.print("Senha Errada");
       noTone(SOM);
@@ -97,6 +96,8 @@ void conferir(){
   } else {
     lcd.print("Erro: "+String(httpCode));
   }
+
+  http.end(); 
 }
 
 void loop() {
@@ -104,7 +105,10 @@ void loop() {
   
   if (key != NO_KEY) {
     if(key != '*'){
-      senha += key;
+      if (senhaIndex < 9) {
+        senha[senhaIndex++] = key;
+        senha[senhaIndex] = '\0';  
+      }
     } else {
       lcd.clear();
       conferir();
@@ -116,7 +120,7 @@ void loop() {
       lcd.setCursor(3,1);
       lcd.print("sua senha:");
 
-      senha = "";
+      senhaIndex = 0;  
     }
   }
 }

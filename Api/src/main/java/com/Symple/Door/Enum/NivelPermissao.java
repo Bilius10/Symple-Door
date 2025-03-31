@@ -3,7 +3,8 @@ package com.Symple.Door.Enum;
 public enum NivelPermissao {
 
     ADMIN("admin"),
-    PORTEIRO("porteiro");
+    PORTEIRO("porteiro"),
+    MORADOR("morador");
 
     private String nivel;
 

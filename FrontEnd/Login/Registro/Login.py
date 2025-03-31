@@ -5,9 +5,9 @@ from session import session
 
 def login_page(on_registro, on_menu):
 
-    image = "C:/Users/João Vitor/IdeaProjects/CarteiraAcao/FrontEnd/Imagens/FundoLoginRegistro.png"
-    nome_value = ft.TextField(label="Nome", width=400, height=50, label_style= ft.TextStyle(color="#000000"), border_color="#f7931a", text_style=ft.TextStyle(color="#000000"))
-    senha_value = ft.TextField(label="Senha", width=400, height=50, label_style= ft.TextStyle(color="#000000"), border_color="#f7931a",  text_style=ft.TextStyle(color="#000000"), password=True)
+    image = "C:/Users/João Vitor/IdeaProjects/Symple-Door/FrontEnd/Imagens/LoginRegistro.png"
+    nome_value = ft.TextField(label="Nome", width=400, height=50, label_style= ft.TextStyle(color="#000000"), border_color="#f5deb3", text_style=ft.TextStyle(color="#000000"))
+    senha_value = ft.TextField(label="Senha", width=400, height=50, label_style= ft.TextStyle(color="#000000"), border_color="#f5deb3",  text_style=ft.TextStyle(color="#000000"), password=True)
 
     mensagem_api = ft.Text("", color="white", font_family="MinhaFonte")
 
@@ -19,7 +19,7 @@ def login_page(on_registro, on_menu):
         }
       
         try:
-            response = requests.post("https://c5bc-177-93-150-55.ngrok-free.app/auth/login",json=data)
+            response = requests.post(f"{session.user_data['url']}/auth/login",json=data)
             
             if response.status_code == 200 or response.status_code == 201:
                 mensagem_api.value = "Seja Bem vindo! "+response.json().get('nome') 
@@ -48,7 +48,7 @@ def login_page(on_registro, on_menu):
         mensagem_api.update()
 
         if(response.status_code == 200):
-            print(response.json().get('codigo'))
+           
             session.user_data['token'] = response.json().get('codigo')
             session.user_data['Id'] = response.json().get('Id')
             session.user_data['nome'] = response.json().get('nome')
@@ -59,7 +59,7 @@ def login_page(on_registro, on_menu):
         content=ft.Column(
             [
                 ft.Text(
-                    value="Login", color="#ed8200", font_family="MinhaFonte", size=80
+                    value="Login", color="#f5deb3", font_family="MinhaFonte", size=80
                 ),
 
                 ft.Container(height=40),
@@ -69,12 +69,12 @@ def login_page(on_registro, on_menu):
                 senha_value,
 
                 ft.CupertinoButton(
-                    content=ft.Text("Enviar", color="#ed8200", font_family="MinhaFonte", size=30), width=400, height=70, 
+                    content=ft.Text("Enviar", color="#f5deb3", font_family="MinhaFonte", size=30), width=400, height=70, 
                     on_click=enviar
                 ),
                 mensagem_api,
                 ft.CupertinoButton(
-                    content=ft.Text("Registrar", color="#ed8200", font_family="MinhaFonte", size=20), width=150, height=55, 
+                    content=ft.Text("Registrar", color="#f5deb3", font_family="MinhaFonte", size=20), width=150, height=55, 
                     on_click=on_registro
                 ),
             ],

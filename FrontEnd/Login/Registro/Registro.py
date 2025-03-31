@@ -1,12 +1,13 @@
 import flet as ft
 import requests
 import time
+from session import session
 
 def registro_page(on_login):
     
-    image = "C:/Users/João Vitor/IdeaProjects/CarteiraAcao/FrontEnd/Imagens/FundoLoginRegistro.png"
-    nome_value = ft.TextField(label="Nome", width=400, height=50, label_style= ft.TextStyle(color="#000000"), border_color="#f7931a", text_style=ft.TextStyle(color="#000000"))
-    senha_value = ft.TextField(label="Senha", width=400, height=50, label_style= ft.TextStyle(color="#000000"), border_color="#f7931a",  text_style=ft.TextStyle(color="#000000"), password=True)
+    image = "C:/Users/João Vitor/IdeaProjects/Symple-Door/FrontEnd/Imagens/LoginRegistro.png"
+    nome_value = ft.TextField(label="Nome", width=400, height=50, label_style= ft.TextStyle(color="#000000"), border_color="#f5deb3", text_style=ft.TextStyle(color="#000000"))
+    senha_value = ft.TextField(label="Senha", width=400, height=50, label_style= ft.TextStyle(color="#000000"), border_color="#f5deb3",  text_style=ft.TextStyle(color="#000000"), password=True)
 
     mensagem_api = ft.Text("", color="white", font_family="MinhaFonte")
 
@@ -18,7 +19,7 @@ def registro_page(on_login):
         }
       
         try:
-            response = requests.post("https://c5bc-177-93-150-55.ngrok-free.app/auth/registro",json=data)
+            response = requests.post(f"{session.user_data['url']}/auth/registro",json=data)
         
             if response.status_code == 200 or response.status_code == 201:
                 mensagem_api.value = "Cadastrado!"
@@ -48,7 +49,7 @@ def registro_page(on_login):
         content=ft.Column(
             [
                 ft.Text(
-                    value="Registro", color="#ed8200", font_family="MinhaFonte", size=80
+                    value="Registro", color="#f5deb3", font_family="MinhaFonte", size=80
                 ),
 
                 ft.Container(height=40),
@@ -58,12 +59,12 @@ def registro_page(on_login):
                 senha_value,
 
                 ft.CupertinoButton(
-                    content=ft.Text("Enviar", color="#ed8200", font_family="MinhaFonte", size=30), width=400, height=70, 
+                    content=ft.Text("Enviar", color="#f5deb3", font_family="MinhaFonte", size=30), width=400, height=70, 
                     on_click=enviar
                 ),
                 mensagem_api,
                 ft.CupertinoButton(
-                    content=ft.Text("Voltar", color="#ed8200", font_family="MinhaFonte", size=20), width=150, height=55, 
+                    content=ft.Text("Voltar", color="#f5deb3", font_family="MinhaFonte", size=20), width=150, height=55, 
                     on_click=on_login
                 ),
             ],

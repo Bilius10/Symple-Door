@@ -37,6 +37,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/credenciais/entrar/{senha}").permitAll()
                         .requestMatchers(HttpMethod.GET, "/credenciais/todos").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/credenciais").hasRole("PORTEIRO")
                         .requestMatchers(HttpMethod.GET, "/helloworld").permitAll()
                         .anyRequest().authenticated()
                 )

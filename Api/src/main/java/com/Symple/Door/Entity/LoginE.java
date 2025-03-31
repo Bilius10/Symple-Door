@@ -49,9 +49,15 @@ public class LoginE implements UserDetails, Serializable {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if(this.nivelPermissao == NivelPermissao.ADMIN){
             return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"),
-                    new SimpleGrantedAuthority("ROLE_PORTEIRO"));
+                    new SimpleGrantedAuthority("ROLE_PORTEIRO"),
+                    new SimpleGrantedAuthority("ROLE_MORADOR"));
+
+        }else if(this.nivelPermissao == NivelPermissao.PORTEIRO){
+            return List.of(new SimpleGrantedAuthority("ROLE_PORTEIRO"),
+                    new SimpleGrantedAuthority("ROLE_MORADOR"));
+
         }else{
-            return List.of(new SimpleGrantedAuthority("ROLE_PORTEIRO"));
+            return List.of(new SimpleGrantedAuthority("ROLE_MORADOR"));
         }
     }
 
