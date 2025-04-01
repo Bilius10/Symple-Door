@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -25,12 +24,10 @@ public class CredenciaisC {
     @PostMapping("/entrar/{senha}")
     public ResponseEntity<Object> loginEsp(@PathVariable String senha) throws RegraNegocioException {
 
-        try {
-            return ResponseEntity.status(HttpStatus.OK).body(credenciaisS.loginEsp(senha));
-        }catch (RegraNegocioException e){
-            ErroDTO erroDTO = new ErroDTO(e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erroDTO);
-        }
+        boolean senhaCorreta = credenciaisS.loginEsp(senha);
+
+        return ResponseEntity.status(HttpStatus.OK).body((senhaCorreta)?"Senha válida":"Senha inválida");
+
     }
 
     @GetMapping("/todos")
@@ -39,21 +36,34 @@ public class CredenciaisC {
     }
 
     @DeleteMapping("{id}/{nome}")
-    public ResponseEntity<CredenciaisE> deleteCredencial(@PathVariable Long id, @PathVariable String nome){
+    public ResponseEntity<Object> deleteCredencial(@PathVariable Long id, @PathVariable String nome) throws RegraNegocioException{
 
-        CredenciaisE credenciaisE = new CredenciaisE();
-        credenciaisE.setIdCredencial(id);
-        credenciaisE.setNome(nome);
+        try {
 
-        return ResponseEntity.status(HttpStatus.OK).body(credenciaisS.excluirCredencial(credenciaisE));
+            CredenciaisE credenciaisE = new CredenciaisE();
+            credenciaisE.setIdCredencial(id);
+            credenciaisE.setNome(nome);
+
+            return ResponseEntity.status(HttpStatus.OK).body(credenciaisS.excluirCredencial(credenciaisE));
+
+        } catch (Exception | RegraNegocioException error) {
+            ErroDTO erroDTO = new ErroDTO(error.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erroDTO);
+        }
     }
 
     @PutMapping
-    public ResponseEntity<CredenciaisE> atualizarCredencial(@RequestBody @Valid CredencialFull credencialFull){
+    public ResponseEntity<Object> atualizarCredencial(@RequestBody @Valid CredencialFull credencialFull) throws RegraNegocioException {
 
-        CredenciaisE credenciaisE = new CredenciaisE();
-        BeanUtils.copyProperties(credencialFull, credenciaisE);
+        try {
+            CredenciaisE credenciaisE = new CredenciaisE();
+            BeanUtils.copyProperties(credencialFull, credenciaisE);
 
-        return ResponseEntity.status(HttpStatus.OK).body(credenciaisS.atualizarCredencial(credenciaisE));
+            return ResponseEntity.status(HttpStatus.OK).body(credenciaisS.atualizarCredencial(credenciaisE));
+
+        } catch (Exception | RegraNegocioException error) {
+            ErroDTO erroDTO = new ErroDTO(error.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erroDTO);
+        }
     }
 }

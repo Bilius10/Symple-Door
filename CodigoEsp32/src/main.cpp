@@ -15,7 +15,7 @@ const char* PASSWORD = "";
 
 HTTPClient http;
 
-String apiIP = "https://3.17.7.232";  
+String apiIP = "https://3ed0-177-93-150-55.ngrok-free.app";  
 String logAcesso = "https://api.thingspeak.com/update?api_key=QYVMO3H6J77T93IK&field2=";
 
 char keys[ROWS][COLS] = {

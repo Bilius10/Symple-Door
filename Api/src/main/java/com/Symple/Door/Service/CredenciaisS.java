@@ -25,47 +25,47 @@ public class CredenciaisS {
         return credenciaisR.findAll();
     }
 
-    public String loginEsp(String senha) throws RegraNegocioException {
-
-        String senhaCriptografada = passwordEncoder.encode(senha);
+    public boolean loginEsp(String senha) {
 
         List<CredenciaisE> todosUsuarios = credenciaisR.findAll();
 
-        for (CredenciaisE usuario : todosUsuarios) {
-            if (passwordEncoder.matches(senha, usuario.getSenha())) {
-                return "Senha valida";
-            }
-        }
-        throw new RegraNegocioException("Senha invalida");
+        return todosUsuarios.stream()
+                .anyMatch(usuario -> passwordEncoder.matches(senha, usuario.getSenha()));
     }
 
-    public CredenciaisE excluirCredencial(CredenciaisE credenciaisE){
+    public CredenciaisE excluirCredencial(CredenciaisE credenciaisE) throws RegraNegocioException {
 
         Optional<CredenciaisE> credencialExiste = credenciaisR.findCredenciaisEByNome(credenciaisE.getNome());
 
         if(credencialExiste.isPresent()){
             credenciaisR.deleteCredenciaisEByNome(credenciaisE.getNome());
             loginR.deleteLoginEByLogin(credenciaisE.getNome());
-        }
+
+        }else {
+            throw new RegraNegocioException ("Credenciais não encontrados.");
+         }
 
         return credencialExiste.get();
 
     }
 
-    public CredenciaisE atualizarCredencial(CredenciaisE credenciaisE){
+    public CredenciaisE atualizarCredencial(CredenciaisE credenciaisE) throws RegraNegocioException{
 
         Optional<CredenciaisE> credencialExiste = credenciaisR.findCredenciaisEByNome(credenciaisE.getNome());
         Optional<LoginE> loginExiste = loginR.findLoginEByLogin(credenciaisE.getNome());
 
-        credencialExiste.get().setSenha(passwordEncoder.encode(credenciaisE.getSenha()));
-        loginExiste.get().setSenha(passwordEncoder.encode(credenciaisE.getSenha()));
+        if (credencialExiste.isPresent() && loginExiste.isPresent()) {
 
-        if(credencialExiste.isPresent()){
-            credenciaisR.save(credencialExiste.get());
+            credenciaisE.setSenha(passwordEncoder.encode(credenciaisE.getSenha()));
+            credenciaisR.save(credenciaisE);
+
+            loginExiste.get().setSenha(passwordEncoder.encode(credenciaisE.getSenha()));
             loginR.save(loginExiste.get());
-        }
 
-        return credenciaisE;
+            return credenciaisE;
+        } else {
+            throw new RuntimeException("Credenciais ou login não encontrados.");
+        }
     }
 
 
