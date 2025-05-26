@@ -44,7 +44,7 @@ ThingSpeak
 ## 🎥 Demonstração do Projeto
 
 <p align="center">
-  <a href="https://www.linkedin.com/posts/jo%C3%A3o-vitor-a2868230a_projeto-symple-door-interfone-inteligente-activity-7312476130337243137-GphX?utm_source=share&utm_medium=member_desktop&rcm=ACoAAE7EA0ABXyrK95TlmAy7O1hqV-N8oMPITc4" target="_blank" rel="noopener noreferrer">
+  <a href="https://www.linkedin.com/posts/jo%C3%A3o-vitor-a2868230a_java-investimentos-python-activity-7287640245297201152-Eh7u?utm_source=share&utm_medium=member_desktop&rcm=ACoAAE7EA0ABXyrK95TlmAy7O1hqV-N8oMPITc4" target="_blank" rel="noopener noreferrer">
     <img src="https://github.com/Bilius10/Symple-Door/blob/main/FrontEnd/Imagens/ThumbVideo.PNG?raw=true" alt="Thumb do vídeo" width="600" style="border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1);" />
   </a>
 </p>
